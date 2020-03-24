@@ -32,8 +32,13 @@ namespace Vacation_Ready
             modelBuilder.Entity<RolesModel>().ToTable("Roles");
             modelBuilder.Entity<TeamsModel>().ToTable("Teams");
             modelBuilder.Entity<ProjectsModel>().ToTable("Projects");
-            modelBuilder.Entity<UsersRolesModel>().ToTable("UsersRoles");
-            modelBuilder.Entity<UsersTeamsModel>().ToTable("UsersTeams");
+            modelBuilder.Entity<UsersRolesModel>().HasNoKey().ToTable("UsersRoles");
+            modelBuilder.Entity<UsersTeamsModel>().HasNoKey().ToTable("UsersTeams");
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer("Server=.\\SQLEXPRESS;Database=Vacation-Ready;Trusted_Connection=True;");
         }
     }
 }
