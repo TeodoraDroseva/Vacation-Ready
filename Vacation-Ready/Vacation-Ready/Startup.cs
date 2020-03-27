@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
+using Vacation_Ready.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Vacation_Ready
 {
@@ -29,6 +31,9 @@ namespace Vacation_Ready
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
+            services.AddIdentity<UsersModel, IdentityRole<int>>()
+                    .AddEntityFrameworkStores<VacationReadyContext>()
+                    .AddDefaultTokenProviders();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -37,15 +42,20 @@ namespace Vacation_Ready
             {
                 app.UseDeveloperExceptionPage();
             }
+
             else
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -1,46 +1,52 @@
-﻿@model IEnumerable<Vacation_Ready.Models.UsersModel>
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<UsersModel> userManager;
+@model IEnumerable<Vacation_Ready.Models.UsersModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewBag.Title = "Users";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Username)
+                Username
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PasswordHash)
+                First name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                Last name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                Roles
             </th>
-            <th></th>
+            <th>
+                Teams
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Username)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PasswordHash)
+                @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @{ 
+                    var roles = await userManager.GetRolesAsync(item);
+                    string str = string.Join(", ", roles);
+                    @Html.Raw(str);
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Teams)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

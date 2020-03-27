@@ -1,17 +1,20 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Vacation_Ready.Models;
+using Vacation_Ready;
+using Vacation_Ready.Models.Requests;
 
 namespace Vacation_Ready.Controllers
 {
-    public class UsersController : Controller
+    public class RequestsController : Controller
     {
         private readonly VacationReadyContext _context;
 
-        public UsersController(VacationReadyContext context)
+        public RequestsController(VacationReadyContext context)
         {
             _context = context;
         }
@@ -19,10 +22,9 @@ namespace Vacation_Ready.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.Requests.ToListAsync());
         }
 
-        [Authorize(Roles = "CEO")]
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
@@ -31,14 +33,33 @@ namespace Vacation_Ready.Controllers
                 return NotFound();
             }
 
-            var usersModel = await _context.Users
+            var requestsModel = await _context.Requests
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usersModel == null)
+            if (requestsModel == null)
             {
                 return NotFound();
             }
 
-            return View(usersModel);
+            return View(requestsModel);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,DateSent,UserId,FromDate,UntilDate,LeaveId,HalfDay,AttachmentUrl,Approved")] RequestsModel requestsModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(requestsModel);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(requestsModel);
         }
 
         [HttpGet]
@@ -49,19 +70,19 @@ namespace Vacation_Ready.Controllers
                 return NotFound();
             }
 
-            var usersModel = await _context.Users.FindAsync(id);
-            if (usersModel == null)
+            var requestsModel = await _context.Requests.FindAsync(id);
+            if (requestsModel == null)
             {
                 return NotFound();
             }
-            return View(usersModel);
+            return View(requestsModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Username,PasswordHash,FirstName,LastName")] UsersModel usersModel)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,DateSent,UserId,FromDate,UntilDate,LeaveId,HalfDay,AttachmentUrl,Approved")] RequestsModel requestsModel)
         {
-            if (id != usersModel.Id)
+            if (id != requestsModel.Id)
             {
                 return NotFound();
             }
@@ -70,12 +91,12 @@ namespace Vacation_Ready.Controllers
             {
                 try
                 {
-                    _context.Update(usersModel);
+                    _context.Update(requestsModel);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UsersModelExists(usersModel.Id))
+                    if (!RequestsModelExists(requestsModel.Id))
                     {
                         return NotFound();
                     }
@@ -86,10 +107,9 @@ namespace Vacation_Ready.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(usersModel);
+            return View(requestsModel);
         }
 
-        [Authorize(Roles = "CEO")]
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -98,30 +118,30 @@ namespace Vacation_Ready.Controllers
                 return NotFound();
             }
 
-            var usersModel = await _context.Users
+            var requestsModel = await _context.Requests
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (usersModel == null)
+            if (requestsModel == null)
             {
                 return NotFound();
             }
 
-            return View(usersModel);
+            return View(requestsModel);
         }
 
-        [Authorize(Roles = "CEO")]
+        [HttpPost]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var usersModel = await _context.Users.FindAsync(id);
-            _context.Users.Remove(usersModel);
+            var requestsModel = await _context.Requests.FindAsync(id);
+            _context.Requests.Remove(requestsModel);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UsersModelExists(int id)
+        private bool RequestsModelExists(int id)
         {
-            return _context.Users.Any(e => e.Id == id);
+            return _context.Requests.Any(e => e.Id == id);
         }
     }
 }

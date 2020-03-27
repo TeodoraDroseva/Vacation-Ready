@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Vacation_Ready.Models.Requests.RequestsModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DateSent)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FromDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UntilDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LeaveId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HalfDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AttachmentUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Approved)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateSent)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FromDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UntilDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaveId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HalfDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttachmentUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Approved)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</body>
+</html>
