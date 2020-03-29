@@ -2,38 +2,9 @@
     ViewBag.Title = "Vacation-Ready";
 }
 
-<div class="index">
-    <h1>Vacation-Ready</h1>
-    <h3>Submit vacation requests online</h3>
-    <div class="wrapper">
-        <a class="nav-link button" asp-controller="Home" asp-action="Login">Sign in</a>
-        <a class="nav-link button" asp-controller="Home" asp-action="Registration">Register</a>    
-    </div>
+<div class="text-center mb-4 m-auto">
+    <h1 class="h1 mb-3 font-weight-normal">Vacation-Ready</h1>
+    <h3 class="h3 mb-3 font-weight-normal">Submit vacation requests online</h3>
+    <button class="btn btn-lg btn-primary mt-3" onclick="window.location.href='@Url.Action("Login", "Home")'">Sign in</button>
+    <button class="btn btn-lg btn-primary mt-3" onclick="window.location.href='@Url.Action("Registration", "Home")'">Register</button>
 </div>
-
-<style>
-    .index {
-        height: 200px;
-        width: 400px;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        margin-top: -100px;
-        margin-left: -200px;
-    }
-
-    h1, h3 {
-        text-align: center;
-    }
-
-    .wrapper {
-        text-align: center;
-        padding-top: 10px;
-        font-size: 20px;
-    }
-
-    .button {
-        display: inline-block;
-        padding-bottom: 5px;
-    }
-</style>
