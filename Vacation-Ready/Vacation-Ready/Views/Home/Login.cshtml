@@ -36,12 +36,12 @@
     </style>
 }
 
-<form method="post" class="form-signin">
+<form method="post" class="form-signin needs-validation" novalidate>
     <div class="text-center mb-4">
         <h1 class="h1 mb-3 font-weight-normal">Sign in</h1>
     </div>
     <div class="form-label-group">
-        <input id="inputUsername" asp-for="Username" class="form-control" type="text" placeholder="Username" required="" autofocus="" />
+        <input id="inputUsername" asp-for="Username" class="form-control" type="text" placeholder="Username" required="" />
         <label asp-for="Username"></label>
         @Html.ValidationMessageFor(model => model.Username)
     </div>
@@ -56,5 +56,6 @@
             @Html.DisplayNameFor(x => x.RememberMe)
         </label>
     </div>
-    <button class="btn btn-lg btn-primary float-right" type="submit">Sign in</button>
+    <button class="btn btn-lg btn-primary float-left" type="submit">Sign in</button>
+    <a asp-action="Index" class="btn btn-lg btn-primary float-right">Go back</a>
 </form>

@@ -71,9 +71,15 @@ namespace Vacation_Ready.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registration(RegistrationViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            else
             {
                 var user = new UsersModel { UserName = model.Username, FirstName = model.FirstName, LastName = model.LastName };
                 var result = await userManager.CreateAsync(user, model.Password);

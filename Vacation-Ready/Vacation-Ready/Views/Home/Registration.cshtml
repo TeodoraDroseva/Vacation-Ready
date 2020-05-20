@@ -65,5 +65,6 @@
         <label asp-for="LastName"></label>
         @Html.ValidationMessageFor(model => model.LastName)
     </div>
-    <button class="btn btn-lg btn-primary float-right" type="submit">Register</button>
+    <button class="btn btn-lg btn-primary float-left" type="submit">Register</button>
+    <a asp-action="Index" class="btn btn-lg btn-primary float-right">Go back</a>
 </form>

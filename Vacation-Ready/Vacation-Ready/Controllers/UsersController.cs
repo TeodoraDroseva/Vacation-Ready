@@ -74,19 +74,23 @@ namespace Vacation_Ready.Controllers
                     _context.Update(usersModel);
                     await _context.SaveChangesAsync();
                 }
+
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!UsersModelExists(usersModel.Id))
                     {
                         return NotFound();
                     }
+
                     else
                     {
                         throw;
                     }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(usersModel);
         }
 
@@ -117,6 +121,7 @@ namespace Vacation_Ready.Controllers
             var usersModel = await _context.Users.FindAsync(id);
             _context.Users.Remove(usersModel);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
 
