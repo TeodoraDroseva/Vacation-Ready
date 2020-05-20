@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Vacation_Ready.Models;
@@ -35,9 +34,15 @@ namespace Vacation_Ready.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!this.ModelState.IsValid)
+            {
+                return this.View();
+            }
+
+            else
             {
                 var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, model.RememberMe, false);
 
@@ -92,7 +97,6 @@ namespace Vacation_Ready.Controllers
                         await userManager.AddToRoleAsync(user, "Unassigned");
                     }
 
-                    await signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
 

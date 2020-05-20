@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Vacation_Ready;
-using Vacation_Ready.Models.Requests;
+using Vacation_Ready.Models;
 
 namespace Vacation_Ready.Controllers
 {
@@ -22,7 +18,7 @@ namespace Vacation_Ready.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Requests.ToListAsync());
+            return View(await _context.Requests.Include(request => request.LeaveType).ToListAsync());
         }
 
         [HttpGet]

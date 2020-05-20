@@ -4,29 +4,66 @@
     ViewBag.Title = "Registration";
 }
 
-<form method="post" class="form-signin">
+@section css {
+    <link rel="stylesheet" href="~/css/floating-labels.css">
+    <style>
+        a,
+        a:focus,
+        a:hover {
+            color: #fff;
+        }
+
+        .btn-primary,
+        .btn-primary:hover,
+        .btn-primary:focus {
+            color: #333;
+            text-shadow: none;
+        }
+
+        html,
+        body {
+            height: 100%;
+            background-color: #333;
+        }
+
+        body {
+            display: -ms-flexbox;
+            display: flex;
+            color: #fff;
+            text-shadow: 0 .05rem .1rem rgba(0, 0, 0, .5);
+            box-shadow: inset 0 0 5rem rgba(0, 0, 0, .5);
+        }
+    </style>
+}
+
+<form method="post" class="form-signin needs-validation" novalidate>
     <div class="text-center mb-4">
         <h1 class="h1 mb-3 font-weight-normal">Registration</h1>
     </div>
     <div class="form-label-group">
         <input id="inputUsername" asp-for="Username" class="form-control" type="text" placeholder="Username" required="" />
         <label asp-for="Username"></label>
+        @Html.ValidationMessageFor(model => model.Username)
     </div>
     <div class="form-label-group">
         <input id="inputPassword" asp-for="Password" class="form-control" type="password" placeholder="Password" required="" />
         <label asp-for="Password"></label>
+        @Html.ValidationMessageFor(model => model.Password)
     </div>
     <div class="form-label-group">
         <input id="inputConfirmPassword" asp-for="ConfirmPassword" class="form-control" type="password" placeholder="Confirm password" required="" />
         <label asp-for="ConfirmPassword"></label>
+        @Html.ValidationMessageFor(model => model.ConfirmPassword)
     </div>
     <div class="form-label-group">
         <input id="inputFirstName" asp-for="FirstName" class="form-control" type="text" placeholder="First name" required="" />
         <label asp-for="FirstName"></label>
+        @Html.ValidationMessageFor(model => model.FirstName)
     </div>
     <div class="form-label-group">
         <input id="inputLastName" asp-for="LastName" class="form-control" type="text" placeholder="Last name" required="" />
         <label asp-for="LastName"></label>
+        @Html.ValidationMessageFor(model => model.LastName)
     </div>
     <button class="btn btn-lg btn-primary float-right" type="submit">Register</button>
 </form>

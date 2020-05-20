@@ -10,7 +10,7 @@ body {
     align-items: center;
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: #f5f5f5;
+    background-color: #fff;
 }
 
 .form-signin {
@@ -37,11 +37,11 @@ body {
         left: 0;
         display: block;
         width: 100%;
-        margin-bottom: 0; /* Override default `<label>` margin */
+        margin-bottom: 0;
         line-height: 1.5;
         color: #495057;
         pointer-events: none;
-        cursor: text; /* Match the input under the label */
+        cursor: text;
         border: 1px solid transparent;
         border-radius: .25rem;
         transition: all .1s ease-in-out;
@@ -79,8 +79,6 @@ body {
             color: #777;
         }
 
-/* Fallback for Edge
--------------------------------------------------- */
 @supports (-ms-ime-align: auto) {
     .form-label-group > label {
         display: none;
@@ -91,8 +89,6 @@ body {
     }
 }
 
-/* Fallback for IE
--------------------------------------------------- */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     .form-label-group > label {
         display: none;

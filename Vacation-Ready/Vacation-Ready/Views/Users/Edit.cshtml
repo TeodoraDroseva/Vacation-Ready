@@ -1,13 +1,15 @@
 ﻿@model Vacation_Ready.Models.UsersModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewBag.Title = "Editing..";
+    Layout = "~/Views/Shared/NavBars.cshtml";
 }
 
-<h1>Edit</h1>
+@section css {
+    <link rel="stylesheet" href="~/css/nav-bars.css">
+    <link rel="stylesheet" href="~/css/floating-labels.css">
+}
 
-<h4>UsersModel</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
@@ -43,7 +45,3 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

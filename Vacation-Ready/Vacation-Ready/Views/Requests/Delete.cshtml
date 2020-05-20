@@ -1,4 +1,4 @@
-﻿@model Vacation_Ready.Models.Requests.RequestsModel
+﻿@model Vacation_Ready.Models.RequestsModel
 
 @{
     Layout = null;
@@ -43,10 +43,10 @@
             @Html.DisplayFor(model => model.UntilDate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LeaveId)
+            @Html.DisplayNameFor(model => model.LeaveTypeId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LeaveId)
+            @Html.DisplayFor(model => model.LeaveTypeId)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.HalfDay)

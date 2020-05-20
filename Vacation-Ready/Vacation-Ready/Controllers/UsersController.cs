@@ -19,10 +19,9 @@ namespace Vacation_Ready.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Users.ToListAsync());
+            return View(await _context.Users.Include(user => user.UserTeams).ThenInclude(ut => ut.Team).ToListAsync());
         }
 
-        [Authorize(Roles = "CEO")]
         [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
@@ -42,6 +41,7 @@ namespace Vacation_Ready.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -58,6 +58,7 @@ namespace Vacation_Ready.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Username,PasswordHash,FirstName,LastName")] UsersModel usersModel)
         {
@@ -89,8 +90,8 @@ namespace Vacation_Ready.Controllers
             return View(usersModel);
         }
 
-        [Authorize(Roles = "CEO")]
         [HttpGet]
+        [Authorize(Roles = "CEO")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -108,8 +109,8 @@ namespace Vacation_Ready.Controllers
             return View(usersModel);
         }
 
-        [Authorize(Roles = "CEO")]
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "CEO")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

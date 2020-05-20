@@ -1,0 +1,51 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section css {
+    @RenderSection("css", required: false)
+}
+
+<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Vacation-Ready</a>
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <form method="post" asp-action="logout" asp-controller="home">
+                <button class="nav-link btn btn-link py-0" type="submit" style="width:auto">Sign out</button>
+            </form>
+        </li>
+    </ul>
+</nav>
+<div class="container-fluid">
+    <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="window.location.href='@Url.Action("Index", "Requests")'">
+                            Requests
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="window.location.href='@Url.Action("Index", "Users")'">
+                            Users
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="window.location.href='@Url.Action("Index", "Teams")'">
+                            Teams
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" onclick="window.location.href='@Url.Action("Index", "Projects")'">
+                            Projects
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+<main class="col-md-9 ml-sm-auto col-lg-10 px-4" role="main">
+    @RenderBody()
+</main>

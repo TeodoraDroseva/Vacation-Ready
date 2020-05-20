@@ -6,7 +6,7 @@ namespace Vacation_Ready.Models.JoinTables
     {
         public int UserId { get; set; }
         public int TeamId { get; set; }
-        public UsersModel Users { get; set; }
-        public TeamsModel Teams { get; set; }
+        public UsersModel User { get; set; }
+        public TeamsModel Team { get; set; }
     }
 }

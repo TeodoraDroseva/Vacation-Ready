@@ -79,23 +79,16 @@ namespace Vacation_Ready.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Requests",
+                name: "Teams",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DateSent = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<int>(nullable: false),
-                    FromDate = table.Column<DateTime>(nullable: false),
-                    UntilDate = table.Column<DateTime>(nullable: false),
-                    LeaveId = table.Column<int>(nullable: false),
-                    HalfDay = table.Column<bool>(nullable: false),
-                    AttachmentUrl = table.Column<string>(nullable: true),
-                    Approved = table.Column<bool>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Requests", x => x.Id);
+                    table.PrimaryKey("PK_Teams", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,23 +198,29 @@ namespace Vacation_Ready.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teams",
+                name: "Requests",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    UsersModelId = table.Column<int>(nullable: true)
+                    DateSent = table.Column<DateTime>(nullable: false),
+                    UserId = table.Column<int>(nullable: false),
+                    FromDate = table.Column<DateTime>(nullable: false),
+                    UntilDate = table.Column<DateTime>(nullable: false),
+                    LeaveTypeId = table.Column<int>(nullable: false),
+                    HalfDay = table.Column<bool>(nullable: false),
+                    AttachmentUrl = table.Column<string>(nullable: true),
+                    Approved = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teams", x => x.Id);
+                    table.PrimaryKey("PK_Requests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teams_AspNetUsers_UsersModelId",
-                        column: x => x.UsersModelId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_Requests_LeaveTypes_LeaveTypeId",
+                        column: x => x.LeaveTypeId,
+                        principalTable: "LeaveTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -229,24 +228,23 @@ namespace Vacation_Ready.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<int>(nullable: false),
-                    TeamId = table.Column<int>(nullable: false),
-                    UsersId = table.Column<int>(nullable: true),
-                    TeamsId = table.Column<int>(nullable: true)
+                    TeamId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_UsersTeams", x => new { x.UserId, x.TeamId });
                     table.ForeignKey(
-                        name: "FK_UsersTeams_Teams_TeamsId",
-                        column: x => x.TeamsId,
+                        name: "FK_UsersTeams_Teams_TeamId",
+                        column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UsersTeams_AspNetUsers_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_UsersTeams_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -289,19 +287,15 @@ namespace Vacation_Ready.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_UsersModelId",
-                table: "Teams",
-                column: "UsersModelId");
+                name: "IX_Requests_LeaveTypeId",
+                table: "Requests",
+                column: "LeaveTypeId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UsersTeams_TeamsId",
+                name: "IX_UsersTeams_TeamId",
                 table: "UsersTeams",
-                column: "TeamsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UsersTeams_UsersId",
-                table: "UsersTeams",
-                column: "UsersId");
+                column: "TeamId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -322,9 +316,6 @@ namespace Vacation_Ready.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "LeaveTypes");
-
-            migrationBuilder.DropTable(
                 name: "Projects");
 
             migrationBuilder.DropTable(
@@ -335,6 +326,9 @@ namespace Vacation_Ready.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "LeaveTypes");
 
             migrationBuilder.DropTable(
                 name: "Teams");

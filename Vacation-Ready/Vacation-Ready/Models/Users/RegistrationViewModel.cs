@@ -10,7 +10,7 @@ namespace Vacation_Ready.Models.Users
 
         [Required]
         [StringLength(64, MinimumLength = 6, ErrorMessage = "Password must be 6 to 64 characters long.")]
-        [RegularExpression(@"^((?=.*[a-z])(?=.*[A-Z])(?=.*\d)).+$", ErrorMessage = "Password must include lowercase, uppercase and the last 3 digits of Pi.")]
+        [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Password must include lowercase, uppercase and the last 3 digits of Pi.")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

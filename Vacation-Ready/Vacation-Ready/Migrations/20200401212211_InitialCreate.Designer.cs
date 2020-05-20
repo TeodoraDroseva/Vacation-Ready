@@ -10,7 +10,7 @@ using Vacation_Ready;
 namespace Vacation_Ready.Migrations
 {
     [DbContext(typeof(VacationReadyContext))]
-    [Migration("20200326193752_InitialCreate")]
+    [Migration("20200401212211_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -151,7 +151,22 @@ namespace Vacation_Ready.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Vacation_Ready.Models.AdditionalTables.LeaveTypesModel", b =>
+            modelBuilder.Entity("Vacation_Ready.Models.JoinTables.UsersTeamsModel", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "TeamId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("UsersTeams");
+                });
+
+            modelBuilder.Entity("Vacation_Ready.Models.LeaveTypesModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -164,27 +179,6 @@ namespace Vacation_Ready.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("LeaveTypes");
-                });
-
-            modelBuilder.Entity("Vacation_Ready.Models.JoinTables.UsersTeamsModel", b =>
-                {
-                    b.Property<int>("TeamId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TeamsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UsersId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("TeamsId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("UsersTeams");
                 });
 
             modelBuilder.Entity("Vacation_Ready.Models.Projects.ProjectsModel", b =>
@@ -208,7 +202,7 @@ namespace Vacation_Ready.Migrations
                     b.ToTable("Projects");
                 });
 
-            modelBuilder.Entity("Vacation_Ready.Models.Requests.RequestsModel", b =>
+            modelBuilder.Entity("Vacation_Ready.Models.RequestsModel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -230,7 +224,7 @@ namespace Vacation_Ready.Migrations
                     b.Property<bool>("HalfDay")
                         .HasColumnType("bit");
 
-                    b.Property<int>("LeaveId")
+                    b.Property<int>("LeaveTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UntilDate")
@@ -240,6 +234,9 @@ namespace Vacation_Ready.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LeaveTypeId")
+                        .IsUnique();
 
                     b.ToTable("Requests");
                 });
@@ -254,12 +251,7 @@ namespace Vacation_Ready.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UsersModelId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UsersModelId");
 
                     b.ToTable("Teams");
                 });
@@ -390,20 +382,26 @@ namespace Vacation_Ready.Migrations
 
             modelBuilder.Entity("Vacation_Ready.Models.JoinTables.UsersTeamsModel", b =>
                 {
-                    b.HasOne("Vacation_Ready.Models.Teams.TeamsModel", "Teams")
-                        .WithMany()
-                        .HasForeignKey("TeamsId");
+                    b.HasOne("Vacation_Ready.Models.Teams.TeamsModel", "Team")
+                        .WithMany("TeamUsers")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Vacation_Ready.Models.UsersModel", "Users")
-                        .WithMany()
-                        .HasForeignKey("UsersId");
+                    b.HasOne("Vacation_Ready.Models.UsersModel", "User")
+                        .WithMany("UserTeams")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Vacation_Ready.Models.Teams.TeamsModel", b =>
+            modelBuilder.Entity("Vacation_Ready.Models.RequestsModel", b =>
                 {
-                    b.HasOne("Vacation_Ready.Models.UsersModel", null)
-                        .WithMany("Teams")
-                        .HasForeignKey("UsersModelId");
+                    b.HasOne("Vacation_Ready.Models.LeaveTypesModel", "LeaveType")
+                        .WithOne("Request")
+                        .HasForeignKey("Vacation_Ready.Models.RequestsModel", "LeaveTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }
